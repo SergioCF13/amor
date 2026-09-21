@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>21 de Septiembre – Día del Amor y la Amistad</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #fff8dc 0%, #fffacd 45%, #ffe066 100%);
+      font-family: 'Georgia', serif;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    /* ── Floating sunflowers layer (behind everything) ── */
+    #sf-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .fsf { /* floating sunflower canvas wrapper */
+      position: absolute;
+      will-change: transform;
+    }
+
+    /* ── Main card ── */
+    .card {
+      position: relative;
+      z-index: 2;
+      background: rgba(255,255,255,.82);
+      backdrop-filter: blur(10px);
+      border-radius: 2.5rem;
+      padding: 3rem 2.8rem 2.5rem;
+      max-width: 560px;
+      width: 92%;
+      box-shadow: 0 8px 40px rgba(218,165,32,.38), 0 2px 8px rgba(0,0,0,.07);
+      text-align: center;
+      animation: cardIn .9s cubic-bezier(.34,1.56,.64,1) both;
+    }
+
+    @keyframes cardIn {
+      from { opacity:0; transform:translateY(60px) scale(.85); }
+      to   { opacity:1; transform:translateY(0)    scale(1);   }
+    }
+
+    /* ── Centre sunflower (card hero) ── */
+    .hero-sf {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+    }
+
+    /* hero SVG sway */
+    .hero-sf svg { animation: swaySf var(--dur,3s) ease-in-out infinite; }
+    @keyframes swaySf {
+      0%,100% { transform:rotate(-5deg) scale(1);     }
+      50%     { transform:rotate( 5deg) scale(1.07);  }
+    }
+
+    /* petals spin inside each SVG */
+    .sp { transform-origin: 50px 50px; animation: spinP var(--sp,10s) linear infinite; }
+    @keyframes spinP { to { transform:rotate(360deg); } }
+
+    /* ── Date badge ── */
+    .date-badge {
+      display:inline-block;
+      background:linear-gradient(90deg,#ffd700,#ff8c00);
+      color:#fff; font-size:.85rem; font-weight:700;
+      letter-spacing:.12em; text-transform:uppercase;
+      padding:.35em 1.2em; border-radius:999px;
+      margin-bottom:1.2rem;
+      box-shadow:0 2px 12px rgba(255,140,0,.4);
+      animation:pulseGlow 2s ease-in-out infinite;
+    }
+    @keyframes pulseGlow {
+      0%,100%{box-shadow:0 2px 12px rgba(255,140,0,.4);}
+      50%    {box-shadow:0 4px 28px rgba(255,140,0,.85);}
+    }
+
+    .main-title {
+      font-size:clamp(1.6rem,5vw,2.3rem);
+      color:#b8860b;
+      text-shadow:1px 2px 4px rgba(180,130,0,.25);
+      line-height:1.25; margin-bottom:.5rem;
+    }
+
+    .subtitle {
+      font-size:1rem; color:#a0522d;
+      letter-spacing:.04em; margin-bottom:1.6rem;
+      min-height:1.4em;
+    }
+
+    .divider {
+      display:flex; align-items:center; gap:.6rem;
+      margin:1rem auto; color:#daa520; font-size:1.3rem;
+    }
+    .divider::before,.divider::after {
+      content:''; flex:1; height:1.5px;
+      background:linear-gradient(90deg,transparent,#daa520,transparent);
+    }
+
+    .message {
+      font-size:1.05rem; color:#5a3e00;
+      line-height:1.8; padding:0 .4rem; margin-bottom:1.6rem;
+    }
+    .message strong { color:#b8860b; font-style:italic; }
+
+    .name-box {
+      display:inline-block;
+      font-size:clamp(1.3rem,4vw,1.8rem); font-weight:700;
+      background:linear-gradient(135deg,#ff8c00,#ffd700,#ff8c00);
+      background-size:200% auto;
+      animation:shineText 3s linear infinite;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text;
+      margin-bottom:1.6rem;
+      filter:drop-shadow(0 2px 4px rgba(200,120,0,.35));
+    }
+    @keyframes shineText { to{background-position:200% center;} }
+
+    .hearts {
+      font-size:1.4rem; letter-spacing:.25em; margin-bottom:1.6rem;
+      animation:heartBeat 1.4s ease-in-out infinite;
+    }
+    @keyframes heartBeat {
+      0%,100%{transform:scale(1);} 14%{transform:scale(1.15);}
+      28%{transform:scale(1);}     42%{transform:scale(1.1);}
+    }
+
+    .bouquet {
+      font-size:2.2rem; letter-spacing:.1em; margin-top:.4rem;
+      animation:bouquetWiggle 2.5s ease-in-out infinite;
+    }
+    @keyframes bouquetWiggle {
+      0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);}
+    }
+
+    .signature {
+      margin-top:1.4rem; font-size:.85rem;
+      color:#a0522d; letter-spacing:.06em;
+    }
+
+    /* ── Buttons row ── */
+    .btn-row {
+      display:flex; flex-wrap:wrap;
+      gap:.9rem; justify-content:center;
+      margin-top:1.8rem;
+    }
+
+    .btn {
+      padding:.75em 2em;
+      font-size:1rem; font-weight:700; border:none;
+      border-radius:999px; cursor:pointer;
+      letter-spacing:.05em;
+      transition:transform .15s, box-shadow .15s;
+    }
+    .btn:hover  { transform:translateY(-3px) scale(1.05); }
+    .btn:active { transform:scale(.96); }
+
+    .btn-celebrate {
+      background:linear-gradient(135deg,#ffd700,#ff8c00);
+      color:#fff;
+      box-shadow:0 4px 18px rgba(255,140,0,.45);
+    }
+    .btn-celebrate:hover { box-shadow:0 6px 28px rgba(255,140,0,.65); }
+
+    /* WhatsApp button */
+    .btn-wa {
+      background:linear-gradient(135deg,#25D366,#128C7E);
+      color:#fff;
+      box-shadow:0 4px 18px rgba(37,211,102,.45);
+      display:flex; align-items:center; gap:.5rem;
+    }
+    .btn-wa:hover { box-shadow:0 6px 28px rgba(37,211,102,.65); }
+
+    .wa-icon {
+      width:22px; height:22px; flex-shrink:0;
+      fill:#fff;
+    }
+
+    /* ── Canvas ── */
+    #confetti-canvas {
+      position:fixed; inset:0;
+      pointer-events:none; z-index:99;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating SVG sunflowers layer -->
+  <div id="sf-layer"></div>
+
+  <!-- Confetti canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Card -->
+  <div class="card">
+
+    <!-- Hero: 3 sunflowers side by side -->
+    <div class="hero-sf" id="heroSf"></div>
+
+    <div class="date-badge">🌻 21 de Septiembre 🌻</div>
+
+    <h1 class="main-title">Día del Amor<br>y la Amistad</h1>
+    <p class="subtitle" id="subtitle">Para ti, con todo mi corazón</p>
+
+    <div class="divider">🌼</div>
+
+    <p class="message">
+      En este día tan especial quiero que sepas que eres<br>
+      <strong>la luz más brillante de mi vida</strong>,<br>
+      como el girasol que siempre busca el sol,<br>
+      yo siempre busco tu sonrisa. 🌻<br><br>
+      Gracias por ser mi amor, mi amiga, mi todo.<br>
+      <strong>Hoy y siempre, te regalo el cielo entero.</strong>
+    </p>
+
+    <div class="divider">💛</div>
+    <div class="name-box">✨ Lizeth Muñoz Herbas ✨</div>
+
+    <div class="hearts">💛🧡❤️🧡💛</div>
+    <div class="bouquet">🌻🌼🌻🌼🌻</div>
+
+    <p class="signature">Con amor infinito · 21·09·2026</p>
+
+    <div class="btn-row">
+      <!-- Celebrate -->
+      <button class="btn btn-celebrate" id="celebrateBtn" onclick="launchConfetti()">
+        🎉 ¡Celebrar!
+      </button>
+
+      <!-- WhatsApp -->
+      <a class="btn btn-wa" id="waBtn" href="#" target="_blank" rel="noopener">
+        <svg class="wa-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M16.003 2C8.28 2 2 8.278 2 16c0 2.478.65 4.797 1.783 6.81L2 30l7.393-1.742A13.93 13.93 0 0016.003 30C23.72 30 30 23.722 30 16S23.72 2 16.003 2zm0 25.385a11.34 11.34 0 01-5.773-1.577l-.413-.245-4.386 1.033 1.067-4.262-.27-.436A11.329 11.329 0 014.617 16c0-6.282 5.108-11.385 11.386-11.385S27.384 9.718 27.384 16 22.285 27.385 16.003 27.385zm6.24-8.513c-.342-.171-2.024-1-2.338-1.112-.314-.113-.543-.171-.77.171-.228.343-.884 1.112-1.084 1.342-.2.228-.399.257-.741.086-.342-.171-1.444-.532-2.75-1.697-1.017-.907-1.703-2.027-1.903-2.37-.2-.342-.021-.527.15-.697.155-.153.342-.4.513-.6.171-.199.228-.342.342-.57.114-.228.057-.428-.029-.599-.085-.171-.77-1.855-1.055-2.541-.278-.668-.56-.578-.77-.589l-.656-.011a1.26 1.26 0 00-.912.428c-.314.342-1.197 1.17-1.197 2.854s1.226 3.31 1.397 3.538c.171.228 2.413 3.682 5.848 5.163.817.352 1.455.563 1.952.72.82.261 1.567.224 2.157.136.658-.098 2.024-.827 2.31-1.626.285-.8.285-1.484.2-1.626-.086-.143-.314-.228-.656-.4z"/>
+        </svg>
+        Agradecer por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <script>
+    /* ═══════════════════════════════════════════
+       SUNFLOWER SVG BUILDER
+       Returns an <svg> element of the given size.
+       spinSpeed: seconds per rotation
+    ═══════════════════════════════════════════ */
+    function buildSunflower(size, spinSpeed, petalColor1, petalColor2) {
+      const S = size;
+      const cx = S / 2, cy = S / 2;
+      const ns = 'http://www.w3.org/2000/svg';
+
+      const svg = document.createElementNS(ns, 'svg');
+      svg.setAttribute('viewBox', `0 0 ${S} ${S}`);
+      svg.setAttribute('width',  S);
+      svg.setAttribute('height', S);
+      svg.setAttribute('xmlns', ns);
+
+      function el(tag, attrs, parent) {
+        const e = document.createElementNS(ns, tag);
+        for (const [k,v] of Object.entries(attrs)) e.setAttribute(k, v);
+        if (parent) parent.appendChild(e);
+        return e;
+      }
+
+      // stem
+      el('line', {x1:cx, y1:cy+S*.27, x2:cx, y2:S*.96,
+        stroke:'#3a7d44', 'stroke-width': S*.038, 'stroke-linecap':'round'}, svg);
+      // leaf L
+      el('ellipse', {cx: cx-S*.1, cy: cy+S*.38,
+        rx: S*.12, ry: S*.055, fill:'#4caf50',
+        transform:`rotate(-35 ${cx-S*.1} ${cy+S*.38})`}, svg);
+      // leaf R
+      el('ellipse', {cx: cx+S*.1, cy: cy+S*.32,
+        rx: S*.12, ry: S*.055, fill:'#4caf50',
+        transform:`rotate(35 ${cx+S*.1} ${cy+S*.32})`}, svg);
+
+      // spinning petal group
+      const g = el('g', {
+        class: 'sp',
+        style: `transform-origin:${cx}px ${cy}px; animation-duration:${spinSpeed}s`
+      }, svg);
+
+      const nPetals = 12;
+      const petalRx = S * .065, petalRy = S * .175;
+      const petalCy = cy - S * .25;
+      for (let i = 0; i < nPetals; i++) {
+        el('ellipse', {
+          cx, cy: petalCy, rx: petalRx, ry: petalRy,
+          fill: i % 2 === 0 ? petalColor1 : petalColor2,
+          transform: `rotate(${i * (360/nPetals)} ${cx} ${cy})`
+        }, g);
+      }
+
+      // outer disc
+      el('circle', {cx, cy, r: S*.185, fill:'#5C3317'}, svg);
+      // inner disc
+      el('circle', {cx, cy, r: S*.145, fill:'#6B3A20'}, svg);
+
+      // seed dots (3×3 grid-ish)
+      const dotR = S * .017;
+      const offsets = [
+        [0,-S*.09], [-S*.07,-S*.05], [S*.07,-S*.05],
+        [-S*.09,0], [0,0],          [S*.09,0],
+        [-S*.07, S*.05],[S*.07, S*.05],[0, S*.09]
+      ];
+      for (const [dx,dy] of offsets)
+        el('circle', {cx: cx+dx, cy: cy+dy, r: dotR, fill:'#3d1e0a'}, svg);
+
+      // sheen
+      el('circle', {cx: cx-S*.07, cy: cy-S*.07, r: S*.04,
+        fill:'rgba(255,255,200,.12)'}, svg);
+
+      return svg;
+    }
+
+    /* ═══════════════════════════════════════════
+       HERO SUNFLOWERS (inside card)
+    ═══════════════════════════════════════════ */
+    const heroEl = document.getElementById('heroSf');
+    const heroData = [
+      { size:90,  spd:14, c1:'#FFD700', c2:'#FFC200', delay:'0s'   },
+      { size:120, spd:10, c1:'#FFA500', c2:'#FFD700', delay:'.4s'  },
+      { size:90,  spd:16, c1:'#FFD700', c2:'#FF8C00', delay:'.8s'  },
+    ];
+    heroData.forEach(d => {
+      const sf = buildSunflower(d.size, d.spd, d.c1, d.c2);
+      sf.style.setProperty('--dur', (2.5 + Math.random())+'s');
+      sf.style.animationDelay = d.delay;
+      heroEl.appendChild(sf);
+    });
+
+    /* ═══════════════════════════════════════════
+       FLOATING BACKGROUND SUNFLOWERS
+    ═══════════════════════════════════════════ */
+    const sfLayer = document.getElementById('sf-layer');
+    const BG_COUNT = 12;
+    const bgSunflowers = [];
+
+    const PC1 = ['#FFD700','#FFA500','#FFE066','#FFB300'];
+    const PC2 = ['#FFC200','#FF8C00','#FFD700','#FFA500'];
+
+    for (let i = 0; i < BG_COUNT; i++) {
+      const size  = 50 + Math.random() * 90;         // 50–140 px
+      const spd   = 8  + Math.random() * 16;          // spin speed
+      const c1    = PC1[Math.floor(Math.random()*PC1.length)];
+      const c2    = PC2[Math.floor(Math.random()*PC2.length)];
+      const svg   = buildSunflower(size, spd, c1, c2);
+
+      const wrap  = document.createElement('div');
+      wrap.className = 'fsf';
+      wrap.style.opacity = (.25 + Math.random() * .45).toFixed(2);
+      wrap.appendChild(svg);
+      sfLayer.appendChild(wrap);
+
+      // random starting position
+      const state = {
+        x:  Math.random() * window.innerWidth,
+        y:  Math.random() * window.innerHeight,
+        vx: (Math.random() - .5) * .6,
+        vy: (Math.random() - .5) * .6,
+        rot: Math.random() * 360,
+        rotV: (Math.random() - .5) * .4,
+        size,
+        el: wrap
+      };
+      bgSunflowers.push(state);
+    }
+
+    // Animate them
+    function animateBg() {
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+      bgSunflowers.forEach(s => {
+        s.x   += s.vx;
+        s.y   += s.vy;
+        s.rot += s.rotV;
+
+        // bounce off edges
+        if (s.x < -s.size)   s.x = W + s.size;
+        if (s.x > W + s.size) s.x = -s.size;
+        if (s.y < -s.size)   s.y = H + s.size;
+        if (s.y > H + s.size) s.y = -s.size;
+
+        s.el.style.transform = `translate(${s.x}px,${s.y}px) rotate(${s.rot}deg)`;
+      });
+      requestAnimationFrame(animateBg);
+    }
+    animateBg();
+
+    /* ═══════════════════════════════════════════
+       WHATSAPP BUTTON
+       Bolivia country code: +591
+       Number: 68837629
+    ═══════════════════════════════════════════ */
+ const WA_NUMBER = '59168837629';
+    const WA_MSG = encodeURIComponent('gracias gordito guapote');
+    document.getElementById('waBtn').href =
+      `https://wa.me/${WA_NUMBER}?text=${WA_MSG}`;
+
+    /* ═══════════════════════════════════════════
+       CONFETTI
+
+
+const WA_NUMBER = '59168837629';
+    const WA_MSG = encodeURIComponent('gracias gordito guapote');
+    document.getElementById('waBtn').href =
+      `https://wa.me/${WA_NUMBER}?text=${WA_MSG}`;
+
+
+
+    ═══════════════════════════════════════════ */
+    const canvas  = document.getElementById('confetti-canvas');
+    const ctx     = canvas.getContext('2d');
+    let particles = [];
+    let animId    = null;
+
+    const COLORS = ['#FFD700','#FFC200','#FF8C00','#FF6347','#FF69B4','#ADFF2F','#00CED1','#fff'];
+
+    function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function Particle(x, y) {
+      this.x  = x; this.y = y;
+      this.vx = (Math.random()-.5)*16;
+      this.vy = -(7 + Math.random()*11);
+      this.color  = COLORS[Math.floor(Math.random()*COLORS.length)];
+      this.shape  = Math.random()>.4 ? 'rect' : 'circle';
+      this.size   = 6 + Math.random()*8;
+      this.alpha  = 1;
+      this.rot    = Math.random()*Math.PI*2;
+      this.rotV   = (Math.random()-.5)*.28;
+      this.gravity= .35 + Math.random()*.2;
+    }
+    Particle.prototype.update = function(){
+      this.vy += this.gravity; this.x += this.vx; this.y += this.vy;
+      this.rot += this.rotV;   this.alpha -= .011;
+    };
+    Particle.prototype.draw = function(){
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, this.alpha);
+      ctx.fillStyle = this.color;
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rot);
+      if (this.shape==='circle'){
+        ctx.beginPath(); ctx.arc(0,0,this.size/2,0,Math.PI*2); ctx.fill();
+      } else {
+        ctx.fillRect(-this.size/2,-this.size/4,this.size,this.size/2);
+      }
+      ctx.restore();
+    };
+
+    function runConfetti(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      particles = particles.filter(p=>p.alpha>0);
+      particles.forEach(p=>{p.update();p.draw();});
+      if (particles.length){ animId = requestAnimationFrame(runConfetti); }
+      else { ctx.clearRect(0,0,canvas.width,canvas.height); animId=null; }
+    }
+
+    function launchConfetti(){
+      if(animId) cancelAnimationFrame(animId);
+      particles=[];
+      const cx=canvas.width/2, cy=canvas.height/2;
+      for(let i=0;i<280;i++)
+        particles.push(new Particle(cx+(Math.random()-.5)*160, cy+(Math.random()-.5)*100));
+      runConfetti();
+      const btn=document.getElementById('celebrateBtn');
+      btn.textContent='🌻 ¡Feliz día, Lizeth!';
+      setTimeout(()=>{ btn.textContent='🎉 ¡Celebrar!'; },3200);
+    }
+
+    /* ═══════════════════════════════════════════
+       TYPEWRITER
+    ═══════════════════════════════════════════ */
+    const subtitleEl = document.getElementById('subtitle');
+    const origText   = subtitleEl.textContent;
+    subtitleEl.textContent = '';
+    let ti = 0;
+    function typeWriter(){
+      if(ti < origText.length){ subtitleEl.textContent += origText[ti++]; setTimeout(typeWriter,65); }
+    }
+    setTimeout(typeWriter, 1000);
+  </script>
+</body>
+</html>
